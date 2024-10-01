@@ -15,26 +15,48 @@
          bottom: 20px;
          right: 20px;
          width: 250px;
-         padding: 10px;
-         background-color: #f1f1f1;
-         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-         border-radius: 5px;
+         padding: 15px;
+         background-color: #f9f9f9;
+         box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+         border-radius: 8px;
          display: none;
+         z-index: 1000;
+         transition: opacity 0.3s ease;
       }
       .telegram-popup h3 {
          margin-top: 0;
-         font-size: 16px;
+         font-size: 18px;
+         color: #333;
+      }
+      .telegram-popup p {
+         margin-bottom: 10px;
+         font-size: 14px;
+         color: #555;
       }
       .telegram-popup button {
          background-color: #0088cc;
          color: white;
          border: none;
-         padding: 8px 15px;
+         padding: 10px 20px;
          border-radius: 5px;
          cursor: pointer;
+         font-size: 14px;
       }
       .telegram-popup button:hover {
          background-color: #0077bb;
+      }
+      .close-btn {
+         position: absolute;
+         top: 8px;
+         right: 8px;
+         background: none;
+         border: none;
+         font-size: 16px;
+         cursor: pointer;
+         color: #888;
+      }
+      .close-btn:hover {
+         color: #555;
       }
    </style>
 </head>
@@ -75,34 +97,26 @@
 
       // Function to open the Telegram link
       function openTelegramLink(telegramLink) {
-         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-         
-         if (isMobile) {
-            window.open(telegramLink, '_blank'); // Open in a new tab on mobile devices
-         } else {
-            const width = 170;
-            const height = 215;
-            const left = (window.innerWidth - width) / 2;
-            const top = (window.innerHeight - height) / 2;
-
-            const popupWindow = window.open(telegramLink, 'telegramPopup', `width=${width},height=${height},left=${left},top=${top}`);
-
-            // Check if popup window was blocked by the browser
-            if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === 'undefined') {
-               alert('Popup window was blocked. Please allow popups for this site and try again.');
-            } else {
-               popupWindow.focus();
-            }
-         }
+         window.open(telegramLink, '_blank');
       }
 
-      // Function to show Telegram contact information in a small space
+      // Function to show Telegram contact popup
       function showTelegramPopup(contactLink) {
          const popup = document.querySelector('.telegram-popup');
          popup.style.display = 'block';
+         popup.style.opacity = '1';
          popup.querySelector('button').onclick = function() {
             openTelegramLink(contactLink);
          };
+      }
+
+      // Close the popup
+      function closePopup() {
+         const popup = document.querySelector('.telegram-popup');
+         popup.style.opacity = '0';
+         setTimeout(() => {
+            popup.style.display = 'none';
+         }, 300);
       }
 
       // Get a random index for invitationLinks array
@@ -120,8 +134,9 @@
    </script>
 
    <div class="telegram-popup">
+      <button class="close-btn" onclick="closePopup()">&#x2716;</button>
       <h3>Telegram Contact</h3>
-      <p>Click below to contact via Telegram:</p>
+      <p>Need assistance? Reach out to us on Telegram:</p>
       <button>Open Telegram</button>
    </div>
 </body>
