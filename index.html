@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Random Invitation Link with Telegram Contact</title>
+   <style>
+      body {
+         font-family: Arial, sans-serif;
+         padding: 20px;
+         text-align: center;
+      }
+      .telegram-popup {
+         position: fixed;
+         bottom: 20px;
+         right: 20px;
+         width: 250px;
+         padding: 10px;
+         background-color: #f1f1f1;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+         border-radius: 5px;
+         display: none;
+      }
+      .telegram-popup h3 {
+         margin-top: 0;
+         font-size: 16px;
+      }
+      .telegram-popup button {
+         background-color: #0088cc;
+         color: white;
+         border: none;
+         padding: 8px 15px;
+         border-radius: 5px;
+         cursor: pointer;
+      }
+      .telegram-popup button:hover {
+         background-color: #0077bb;
+      }
+   </style>
+</head>
+<body>
+   <script>
+      // List of invitation links and associated Telegram links
+      const invitationLinks = [
+         {
+            url: "https://www.phoenix88899.com/signup?invite=2hmm4",
+            telegram: "https://t.me/dsinghpx999"
+         },
+         {
+            url: "https://www.phoenix88899.com/signup?invite=upzej",
+            telegram: "https://t.me/maxine8_rich1as"
+         },
+         {
+            url: "https://www.phoenix88899.com/signup?invite=zsrep",
+            telegram: "https://t.me/cha_343"
+         }
+      ];
+
+      // Function to open the invitation link in a new tab/window
+      function openInvitationLink(url) {
+         window.open(url, '_blank');
+      }
+
+      // Function to open the Telegram link
+      function openTelegramLink(telegramLink) {
+         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+         
+         if (isMobile) {
+            window.open(telegramLink, '_blank'); // Open in a new tab on mobile devices
+         } else {
+            const width = 170;
+            const height = 215;
+            const left = (window.innerWidth - width) / 2;
+            const top = (window.innerHeight - height) / 2;
+
+            const popupWindow = window.open(telegramLink, 'telegramPopup', `width=${width},height=${height},left=${left},top=${top}`);
+
+            // Check if popup window was blocked by the browser
+            if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === 'undefined') {
+               alert('Popup window was blocked. Please allow popups for this site and try again.');
+            } else {
+               popupWindow.focus();
+            }
+         }
+      }
+
+      // Function to show Telegram contact information in a small space
+      function showTelegramPopup(contactLink) {
+         const popup = document.querySelector('.telegram-popup');
+         popup.style.display = 'block';
+         popup.querySelector('button').onclick = function() {
+            openTelegramLink(contactLink);
+         };
+      }
+
+      // Get a random index for invitationLinks array
+      const randomIndex = Math.floor(Math.random() * invitationLinks.length);
+
+      // Redirect to the random invitation link
+      const randomInvitationLink = invitationLinks[randomIndex].url;
+      openInvitationLink(randomInvitationLink);
+
+      // Display the Telegram contact popup after a short delay
+      setTimeout(() => {
+         const telegramLink = invitationLinks[randomIndex].telegram;
+         showTelegramPopup(telegramLink);
+      }, 1000); // Adjust delay as needed
+   </script>
+
+   <div class="telegram-popup">
+      <h3>Telegram Contact</h3>
+      <p>Click below to contact via Telegram:</p>
+      <button>Open Telegram</button>
+   </div>
+</body>
+</html>
