@@ -10,11 +10,11 @@
          padding: 20px;
          text-align: center;
       }
-      .telegram-popup {
+      .popup {
          position: fixed;
          bottom: 20px;
          right: 20px;
-         width: 250px;
+         width: 300px;
          padding: 15px;
          background-color: #f9f9f9;
          box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -23,17 +23,24 @@
          z-index: 1000;
          transition: opacity 0.3s ease;
       }
-      .telegram-popup h3 {
+      .popup h3 {
          margin-top: 0;
          font-size: 18px;
          color: #333;
       }
-      .telegram-popup p {
-         margin-bottom: 10px;
+      .popup p {
+         margin: 5px 0;
          font-size: 14px;
          color: #555;
       }
-      .telegram-popup button {
+      .popup a {
+         color: #0088cc;
+         text-decoration: none;
+      }
+      .popup a:hover {
+         text-decoration: underline;
+      }
+      .popup button {
          background-color: #0088cc;
          color: white;
          border: none;
@@ -41,8 +48,9 @@
          border-radius: 5px;
          cursor: pointer;
          font-size: 14px;
+         margin-top: 10px;
       }
-      .telegram-popup button:hover {
+      .popup button:hover {
          background-color: #0077bb;
       }
       .close-btn {
@@ -100,19 +108,20 @@
          window.open(telegramLink, '_blank');
       }
 
-      // Function to show Telegram contact popup
-      function showTelegramPopup(contactLink) {
-         const popup = document.querySelector('.telegram-popup');
+      // Function to show combined popup with invitation and Telegram contact
+      function showPopup(invitationUrl, telegramLink) {
+         const popup = document.querySelector('.popup');
+         popup.querySelector('.invitation-url').href = invitationUrl;
+         popup.querySelector('.invitation-url').innerText = invitationUrl;
+         popup.querySelector('.telegram-link').href = telegramLink;
+
          popup.style.display = 'block';
          popup.style.opacity = '1';
-         popup.querySelector('button').onclick = function() {
-            openTelegramLink(contactLink);
-         };
       }
 
       // Close the popup
       function closePopup() {
-         const popup = document.querySelector('.telegram-popup');
+         const popup = document.querySelector('.popup');
          popup.style.opacity = '0';
          setTimeout(() => {
             popup.style.display = 'none';
@@ -122,22 +131,27 @@
       // Get a random index for invitationLinks array
       const randomIndex = Math.floor(Math.random() * invitationLinks.length);
 
-      // Redirect to the random invitation link
+      // Get the random invitation and Telegram links
       const randomInvitationLink = invitationLinks[randomIndex].url;
+      const randomTelegramLink = invitationLinks[randomIndex].telegram;
+
+      // Redirect to the random invitation link
       openInvitationLink(randomInvitationLink);
 
-      // Display the Telegram contact popup after a short delay
+      // Display the combined popup after a short delay
       setTimeout(() => {
-         const telegramLink = invitationLinks[randomIndex].telegram;
-         showTelegramPopup(telegramLink);
+         showPopup(randomInvitationLink, randomTelegramLink);
       }, 1000); // Adjust delay as needed
    </script>
 
-   <div class="telegram-popup">
+   <div class="popup">
       <button class="close-btn" onclick="closePopup()">&#x2716;</button>
-      <h3>Telegram Contact</h3>
-      <p>Need assistance? Reach out to us on Telegram:</p>
-      <button>Open Telegram</button>
+      <h3>Invitation & Telegram Contact</h3>
+      <p>Join us with the invitation link:</p>
+      <p><a class="invitation-url" href="#" target="_blank"></a></p>
+      <p>Need assistance? Contact us on Telegram:</p>
+      <p><a class="telegram-link" href="#" target="_blank">Click here to message</a></p>
+      <button onclick="openTelegramLink(telegramLink)">Open Telegram</button>
    </div>
 </body>
 </html>
